@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.anmp160420137pascauts.model.Todo
+import com.example.anmp160420137pascauts.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class ListTodoViewModel(application: Application)
     : AndroidViewModel(application), CoroutineScope {
         val todoLD = MutableLiveData<List<Todo>>()
+    val db = buildDb(getApplication())
     val todoLoadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     private var job = Job()

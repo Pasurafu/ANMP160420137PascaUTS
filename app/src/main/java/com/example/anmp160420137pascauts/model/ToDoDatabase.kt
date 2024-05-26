@@ -5,7 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Todo::class), version =  1)
+
+@Database(entities = arrayOf(Todo::class), version =  2)
 
 abstract class ToDoDatabase: RoomDatabase()  {
     abstract fun todoDao(): TodoDao
@@ -18,7 +19,7 @@ abstract class ToDoDatabase: RoomDatabase()  {
             Room.databaseBuilder(
                 context.applicationContext,
                 TodoDatabase::class.java,
-                "newtododb").build()
+                "newtododb").addMigrations(MIGRATION_1_2).build()
         operator fun invoke(context:Context) {
             if(instance!=null) {
                 synchronized(LOCK) {
@@ -30,6 +31,5 @@ abstract class ToDoDatabase: RoomDatabase()  {
         }
 
 
-    }
 
-}
+}}
