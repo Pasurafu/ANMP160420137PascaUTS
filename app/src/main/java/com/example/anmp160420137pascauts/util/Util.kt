@@ -20,9 +20,21 @@ fun buildDb(context: Context): TodoDatabase {
     // New migration from version 2 to version 3: adding is_done column
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
+            // Adding the is_done column
             database.execSQL(
-                "ALTER TABLE todo ADD COLUMN is_done INTEGER DEFAULT 0 NOT NULL"
+                "ALTER TABLE todo ADD COLUMN is_done INTEGER"
             ) // because INTEGER is often used for Boolean values (0 and 1) in SQLite for compatibility and efficiency.
+
+            // Setting the default value to 0 and making it non-null
+            database.execSQL(
+                "UPDATE todo SET is_done = 0 WHERE is_done IS NULL"
+            )
+            database.execSQL(
+                "ALTER TABLE todo ALTER COLUMN is_done SET DEFAULT 0"
+            )
+            database.execSQL(
+                "ALTER TABLE todo ALTER COLUMN is_done SET NOT NULL"
+            )
         }
     }
 
